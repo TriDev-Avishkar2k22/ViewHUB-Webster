@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}
+ViewHUB | Home
+{% endblock %}
+{% block style %}
+.fa-star{
+	cursor:pointer;
+}
+.grid{
+  display: grid;    grid-template-columns:repeat(3, 1fr);
+  grid-gap: 32px;
+}
+.grid-item{
+  box-shadow:0 13px 7px -15px rgb(50 50 93 / 25%), 
+                      0 8px 16px -8px rgb(0 0 0 / 30%), 
+                      0 -6px 16px -6px rgb(0 0 0 / 3%);
+}
+.auth{
+  font-size:0.9rem;
+}
+@media(max-width:992px){
+  .grid{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media(max-width:550px){
+  .grid{
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      padding: 5% 5%;
+  }
+}
+.container{
+  color:black;
+}
+.text-decoration-none{
+  color : white;
+}
+.text-decoration-none:hover{
+  color:rgb(216, 216, 216);
+}
+.back{
+  background-color: rgb(34 44 64 / var(--tw-bg-opacity));
+  color : white;
+  }
+.modal-content{
+  background-color: rgb(34 44 64 / var(--tw-bg-opacity));
+}
+.btn-close{
+  filter : invert(1);
+}
+.btn-primary{
+  background-color: #00ABB3;
+  border: none;
+}
+.btn-primary:hover{
+  background-color: #00ABB3;
+  border: none;
+}
+.search {
+  position: relative;
+  height: 50px;
+}
+
+.search .input {
+  background-color: rgb(34 44 64 / var(--tw-bg-opacity));
+  border: 0;
+  font-size: 15px;
+  padding: 15px;
+  color : white;
+  height: 45px;
+  width: 50px;
+  transition: width 0.3s ease;
+  border-radius: 25px;
+}
+
+.bot {
+  background-color: rgb(34 44 64 / var(--tw-bg-opacity));
+  border: 0;
+  cursor: pointer;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 44px;
+  width: 50px;
+  transition: transform 0.3s ease;
+  border-radius: 25px;
+}
+
+.bot:focus,
+.input:focus {
+  outline: none;
+}
+
+.search.active .input {
+  width: 200px;
+  padding-right:59px;
+}
+
+.search.active .bot {
+  transform: translateX(150px);
+}
+{% block search-bar %}
+<div class="d-flex search">
+  <input type="text" id="search-bar" class="input" placeholder="Search...">
+  <button class="bot">
+    <i class="fas fa-search" style="filter: invert(1);"></i>
+  </button>
+</div>
+{% endblock search-bar %}
+
+
+{% endblock %}
+{% block content %}
+<div class="modal fade" id="SignupModal" tabindex="-1" aria-labelledby="SignupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="SignupModalLabel">Welcome to ViewHub!</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'Signup' %}" method="post">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col">
+                  Enter Your First Name:
+                  <input type="text" class="form-control" id="first-name" placeholder="First name" aria-label="First name" name="fname" required>
+                </div>
+                <div class="col">
+                  Enter Your Last Name:
+                  <input type="text" class="form-control" id="last-name" placeholder="Last name" aria-label="Last name" name="lname" required>
+                </div>
+              </div>
+              <div class="col-auto my-4">
+                <label class="visually-hidden" for="autoSizingInputGroup">Email address:</label>
+                <div class="input-group">
+                  <div class="input-group-text">@</div>
+                  <input type="email" class="form-control" id="autoSizingInputGroup" placeholder="email" name="email" required>
+                  
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputtext" class="form-label">Username:</label>
+                <input type="text" class="form-control" id="exampleInputtext" aria-describedby="textHelp" name="username" required>
+                
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password:</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="pass-1" required>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Confirm Password:</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="pass-2" required>
+              </div>
+              
+            
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Sign up</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="SigninModal" tabindex="-1" aria-labelledby="SigninModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="SigninModalLabel">Login to ViewHub!</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" action= "{% url 'login' %}">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Enter email address:</label>
+                <div class="input-group">
+                    <div class="input-group-text">@</div>
+                    <input type="email" class="form-control" id="autoSizingInputGroup" placeholder="email" name="email" required>
+                  </div>
+                <div id="emailHelp" class="form-text text-white">We'll never share your email with anyone else.</div>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="pass-1">
+              </div>
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                <label class="form-check-label" for="exampleCheck1">Remember Me!</label>
+              </div>
+              <div class="g-signin2" data-onsuccess="onSignIn"></div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Login</button>
+              </div>
+  
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="container p-6">
+    {% comment %} {% for video in uploads %}
+      <div class="card mb-3 back" style="width : 100%;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <iframe width="325" height="250" src="{% static video.file %}?showinfo=0&controls=0" frameborder="0" download=disabled allowfullscreen></iframe>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body box">
+              <h5 class="card-title"><a style="text-decoration:none; color:black" href="{% url 'Post' pId=video.postId %}">{{video.Title}}</a>
+              {% if user.is_authenticated %}
+                {% if video.isfav %}
+                <a  href="{% url 'favs' pId=video.postId %}"><i class="fa-solid fa-heart"></i></a>
+                {% else %}
+                <a  href="{% url 'favs' pId=video.postId %}"><i class="fa-regular fa-heart"></i></a>
+                {% endif %}
+              {% endif %}
+			        </h5>
+              <p class="card-text">Author: {{video.upload_author}}.</p><br>
+              <p class="card-text">Description: {{video.description}}.</p>
+              <p class="card-text">Tags: {{video.Tag}}.</p>
+              <p class="card-text"><small class="text-muted">Created on {{video.Timestamp}}</small></p>
+            </div>
+          </div>
+          {% if user.is_authenticated%}
+              <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playlistModal{{video.postId}}">
+                Add to Playlist
+          </button>
+          <div class="modal fade" id="playlistModal{{video.postId}}" tabindex="-1" aria-labelledby="playlistModal{{video.postId}}Label" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="playlistModal{{video.postId}}Label">Playlists</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  {% for playlist in playlists %}
+                  <div class="card-body">
+                  <a href="{% url 'AddPostToPlaylist' playId=playlist.playId postId=video.postId %}" style="text-decoration=none">Name: {{playlist.Name}}<br></a>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        {% endif %}
+        </div>
+      </div> 
+      {% endfor %} {% endcomment %}
+      <div class="grid" id="box">
+        {% for video in uploads %}
+        <div class="grid-item" >
+          <div class="card back rounded-0" >
+            {% comment %} <img src="{% static 'img/thumbnail.png' %}" class="card-img-top" alt=""> {% endcomment %}
+            <iframe  class ="card-img-top" src="{% static video.file %}" frameborder="0" download=disabled allowfullscreen></iframe>
+            <div class="card-body">
+              <h5 class="card-title"><a href="{% url 'Post' pId=video.postId %}" class="text-decoration-none">{{video.Title|truncatechars:30}}</a></h5>
+              <p class="card-text">{{video.description|truncatechars:100}}</p>
+              <div class="d-flex justify-content-between auth">
+              <div class="d-flex">
+                <img src="{% static 'img/profile.png' %}" class="image">
+                <p style="padding-left:1rem;">{{video.upload_author}}<br>{{video.Timestamp}}</p>
+              </div>
+                <div class="dropup" style="po">
+                  <a class="btn rounded-circle" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static 'img/3-dots.jpg' %}" alt="" style="height:1.1rem;filter : invert(1);margin:9px 0;cursor: pointer;"></a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Like</a></li>
+                    <li><a class="dropdown-item" href="#">Add to Playlist</a></li>
+                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                  </ul>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        {% endfor %}
+        
+    </div>
+  
+{% endblock %}
+
+{% block javascript %}
+{% comment %} document.getElementById("ihome").classList.remove("active");
+document.getElementById("ihome").classList.add("disabled"); {% endcomment %}
+<script>
+  const search = document.querySelector('.search')
+  const btn = document.querySelector('.bot')
+  const input = document.querySelector('.input')
+
+  btn.addEventListener('click', () => {
+      search.classList.toggle('active')
+      input.focus()
+  })
+  const data = "{{filter}}"
+  console.log(data)
+        console.log(typeof(data))
+  const rdata = JSON.parse(data.replace(/&quot;/g, '"'))
+  console.log(typeof(rdata))
+  console.log(rdata)
+  const inp = document.getElementById('search-bar')
+  console.log(inp)
+
+
+  let filterItem = []
+  const box = document.getElementById('box')
+  inp.addEventListener('keyup', (e)=>{
+    box.innerHTML = ""
+    console.log(e.target.value)
+    filterItem = rdata.filter(info=> info['Title'].toLowerCase().includes(e.target.value.toLowerCase()))
+    console.log(filterItem)
+
+    if(filterItem.length > 0){
+      filterItem.map(item=>{
+        box.innerHTML += `
+        <div class="grid-item" >
+          <div class="card back rounded-0" >
+            {% comment %} <img src="{% static 'img/thumbnail.png' %}" class="card-img-top" alt=""> {% endcomment %}
+            <iframe  class ="card-img-top" src="{% static video.file %}" frameborder="0" download=disabled allowfullscreen></iframe>
+            <div class="card-body">
+              {% comment %} <h5 class="card-title"><a href="{% url 'Post' pId=video.postId %}" class="text-decoration-none">{{video.Title|truncatechars:30}}</a></h5> {% endcomment %}
+              <p class="card-text">{{video.description|truncatechars:100}}</p>
+              <div class="d-flex justify-content-between auth">
+              <div class="d-flex">
+                <img src="{% static 'img/profile.png' %}" class="image">
+                <p style="padding-left:1rem;">{{video.upload_author}}<br>{{video.Timestamp}}</p>
+              </div>
+                <div class="dropup" style="po">
+                  <a class="btn rounded-circle" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><img src="{% static 'img/3-dots.jpg' %}" alt="" style="height:1.1rem;filter : invert(1);margin:9px 0;cursor: pointer;"></a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Like</a></li>
+                    <li><a class="dropdown-item" href="#">Add to Playlist</a></li>
+                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                  </ul>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        `
+      })
+    }else{
+      box.innerHTML = `<b>No result found</b>`
+    }
+
+  })
+</script>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--    bootstrap cdn    -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/9a58c5dfe3.js" crossorigin="anonymous"></script>
+
+
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap" rel="stylesheet">
+    
+    <style>
+        {# Custom CSS #}
+        .image{
+            
+          width:37px;
+          height:37px;
+          padding:5px;
+          font-size:15px;
+          font-weight:20px;
+          text-align:center;
+          
+      }
+      .fa-heart{
+        color:#ff007b;
+      }
+      #toasts {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        z-index: 1000;
+      }
+      body{
+        font-family: 'Lexend Deca', sans-serif;
+        color:white !important;
+        
+      }
+      .background, body{
+        --tw-bg-opacity: 1;
+        background-color: rgb(17 23 34 / var(--tw-bg-opacity));
+      }
+      .btn-hover{
+        font-size: 1rem;
+        color: #fff;
+        text-align:center;
+        border: none;
+        background-size: 300% 100%;
+
+        border-radius: 50px;
+        moz-transition: all .4s ease-in-out;
+        -o-transition: all .4s ease-in-out;
+        -webkit-transition: all .4s ease-in-out;
+        transition: all .4s ease-in-out;
+      }
+      .btn-hover:focus {
+        outline: none;
+      }
+      .btn-hover:hover{
+        box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+      }
+      .ccc{
+        background-image: linear-gradient(60deg, #25aae1, #30dd8a);
+
+        color: transparent;
+        -webkit-background-clip: text;
+        font-size: 2rem;
+        font-weight: bolder;
+      }
+      .items{
+        fonr-size :1.2rem;
+      }
+      .items:hover{
+        box-shadow: 0 2px 10px 0 rgba(49, 196, 190, 0.75);
+      }
+      
+        {% block style %}
+          
+        {% endblock %}
+    </style>
+
+    <title>
+        {% block title %}
+        {% endblock  %}
+
+    </title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark background sticky-top">
+        <div class="container-fluid py-3 px-4">
+          <div class="ccc" href="#">ViewHub</div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav m-auto" style="font-size:1.1rem;">
+              <li class="nav-item px-1 mx-2 items rounded-4">
+                <a class="nav-link active" id="ihome" aria-current="page" href="/">Home</a>
+              </li>
+              
+              <li class="nav-item px-1 mx-2 items rounded-4">
+                <a class="nav-link active" id="iabout" aria-current="page" href="{% url 'about' %}">About us</a>
+              </li>
+              <li class="nav-item px-1 mx-2 items rounded-4">
+                <a class="nav-link active" id="icontact" aria-current="page" href="{% url 'contact' %}">Contact us</a>
+              </li>
+            </ul>
+            {% block search-bar %}
+            
+            {% endblock search-bar %}
+            
+            {% if user.is_authenticated %}
+            <a href="{% url 'create' %}" style="text-decoration: none;"><i class="fa-solid fa-square-plus fs-2"></i></a>
+            <div class="nav-link">
+							
+              <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {{request.user}} <img src="{% static 'img/profile.png' %}" alt="" class="image">
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{% url 'profile' %}">Dashboard</a></li>
+                      <li><a class="dropdown-item" href="{% url 'playlists' %}">My Playlists</a></li>
+                      <li><a class="dropdown-item" href="{% url 'favorites' %}">My Favorites</a></li>
+                      <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item"  href="{% url 'logout' %}">Log Out</a></li>
+                    </ul>
+                  </div>
+                {% else %}
+                <a type="button" class="btn btn-hover color-1 rounded-0 py-2 px-3" data-bs-toggle="modal" data-bs-target="#SignupModal">
+                  Sign up
+                </a>
+                <!-- Modal -->
+                <a type="button" class="btn btn-hover color-1 rounded-0 py-2 px-4 mx-3" data-bs-toggle="modal" data-bs-target="#SigninModal">
+                  Login
+                </a>
+                {% endif %}
+              </div>
+            </div>
+          </nav>
+          
+          {% if messages %}
+          {% for message in messages %}
+          <div id="toasts" class="alert alert-{{ message.tags }}">Message : </strong> {{ message }}</div>
+          {% endfor %}
+          {% endif %}
+        {% block content %}
+        
+        {% endblock  %}
+        
+        {% block javascript %}
+
+        {% endblock %}
+        <script>
+        const toasts = document.getElementById('toasts')
+        createNotification()
+        function createNotification() {
+          
+          setTimeout(() => {
+              toasts.remove()
+          }, 3000)
+      }
+      
+
+        </script>
+    </body>
+    </html>

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+ViewHUB | Settings
+{% endblock%}
+{% block content %}
+{% if user.is_authenticated %}
+<h4>Hii {{request.user}} </h4>
+{% endif %}
+{% endblock %}

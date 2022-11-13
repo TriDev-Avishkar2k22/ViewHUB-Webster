@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+ViewHUB | Post
+{% endblock %}
+{% block style %}
+
+{% endblock %}
+{% block content %}
+<div class="Video_container text-center">
+    <h4>Video Title: {{post.Title}}                        
+    {% if post.isfav %}
+    <a  href="{% url 'favs' pId=post.postId %}"><i class="fa-solid fa-heart"></i></a>
+    {% else %}
+    <a  href="{% url 'favs' pId=post.postId %}"><i class="fa-regular fa-heart"></i></a>
+    {% endif %}
+</h4>
+    <iframe width="900" height="500" src="{% static post.file %}" frameborder="0" download=disabled allowfullscreen></iframe>
+</div>
+{% endblock %}

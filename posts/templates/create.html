@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% block title %}
+ViewHUB | Create
+{% endblock %}
+{% block content %}
+<div class="contanier p-5">
+
+    <h2 class="text-center">Create A Post</h2>
+    <div class="flex">
+        <form action="{% url 'create' %}" method="post" enctype= "multipart/form-data">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    
+</div>
+{% endblock content %}

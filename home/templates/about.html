@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}
+{% load static %}
+ViewHUB | About Us
+{% endblock %}
+{% block style %}
+.card{
+    margin:10px;
+}
+{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center flex-wrap">.
+<div class="card inline-block" style="width: 18rem;">
+    <img src="{% static "image/about.jpg"%}" class="card-img-top" alt="...">
+    <div class="cols-auto card-body">
+      <h5 class="card-title">Dhanraj Chaurasia</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="#" class="btn btn-dark">Github</a>
+    </div>
+</div>
+<div class="card inline-block" style="width: 18rem;">
+    <img src="{% static "image/about.jpg"%}" class="card-img-top" alt="...">
+    <div class="cols-auto card-body">
+      <h5 class="card-title">Krishna Soni</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="#" class="btn btn-dark">Github</a>
+    </div>
+</div>
+<div class="card inline-block" style="width: 18rem;">
+    <img src="{% static "image/about.jpg"%}" class="card-img-top" alt="...">
+    <div class="cols-auto card-body">
+      <h5 class="card-title">Ashutosh Suthar</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="#" class="btn btn-dark">Github</a>
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block javascript %}
+document.getElementById("iabout").classList.add("disabled");
+document.getElementById("iabout").classList.remove("active");
+{% endblock %}

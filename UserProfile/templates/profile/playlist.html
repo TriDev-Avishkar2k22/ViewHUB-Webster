@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+ViewHUB | {{playlist.Name}}
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="text-center">
+<h4> Playlist: {{playlist.Name}}</h4>
+<p> Description: {{playlist.description}}</p>
+{% for video in postlist %}
+<div class="container p-5">
+      <div class="card mb-3" style="width : 100%;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <iframe width="325" height="250" src="{% static video.file %}?showinfo=0&controls=0" frameborder="0" download=disabled allowfullscreen></iframe>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"><a style="text-decoration:none; color:black" href="{% url 'Post' pId=video.postId %}">{{video.Title}}</a>
+              {% if video.isfav %}
+              <a  href="{% url 'favs' pId=video.postId %}"><i class="fa-solid fa-heart"></i></a>
+              {% else %}
+              <a  href="{% url 'favs' pId=video.postId %}"><i class="fa-regular fa-heart"></i></a>
+              {% endif %}
+			        </h5>
+              <p class="card-text">Author: {{video.upload_author}}.</p><br>
+              <p class="card-text">Description: {{video.description}}.</p>
+              <p class="card-text">Tags: {{video.Tag}}.</p>
+              <p class="card-text"><small class="text-muted">Created on {{video.Timestamp}}</small></p>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

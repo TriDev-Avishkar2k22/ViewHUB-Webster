@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}
+ViewHUB | Playlists
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated%}
+<div class="container text-center">
+  <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Create Playlist
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Create Playlist</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form class="container" method="post" action="{% url 'CreatePlaylist' %}">
+            {% csrf_token %}
+            <div class="mb-3 row">
+                <label for="name" class="col-sm-2 col-form-label">Name:</label>
+                <div class="col-sm-9" style="margin-left:30px;">
+                <input type="text" class="form-control" id="name" name="name">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="desc" class="col-sm-2 col-form-label">Description:</label>
+                <div class="col-sm-9" style="margin-left:30px;">
+                <input type="text" class="form-control" id="desc" name="desc">
+                </div>
+            </div>
+            <div class="row">
+              <div class="form-check" style="text-align:left; margin-left:10px">
+                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                <label class="form-check-label" for="invalidCheck">
+                  Agree to terms and conditions
+                </label>
+                <div class="invalid-feedback">
+                  You must agree before submitting.
+                </div>
+              </div>
+            </div><br>
+            <div class="col-auto">
+                <input class="btn btn-primary" type="submit" value="Create">
+            </div>
+          </form>      
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<hr>
+{% for playlist in playlists %}
+<div class="card">
+  <div class="card-body">
+    <a href="{% url 'viewPlaylist' playId=playlist.playId %}" style="text-decoration=none">Name: {{playlist.Name}}<br></a>
+    Description: {{playlist.description}}<br>
+    Playlist Id: {{playlist.playId}}
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}
